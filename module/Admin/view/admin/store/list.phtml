@@ -1,3 +1,4 @@
+<?php //var_dump($stores->getCurrentItems());die(); ?>
 <div class="box-body">
 <a href="<?= $this->url('stores', ['action' => 'add']); ?>" class="btn btn-primary">Tạo Mới</a>
 <table id="example2" class="table table-bordered table-hover">
@@ -12,6 +13,7 @@
     </thead>
     <tbody>
     <?php foreach($stores as $store): ?>
+        
         <tr>
             <td>
                 <?php echo $store->getId(); ?>              
@@ -34,3 +36,8 @@
     </tbody>
 </table>
 </div>
+<?= $this->paginationControl(
+            $stores,
+            'Sliding',
+            'admin/patiral/paginator', 
+            ['route' => 'stores']); ?>

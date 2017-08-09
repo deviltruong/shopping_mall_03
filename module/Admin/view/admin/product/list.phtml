@@ -2,7 +2,8 @@
 <div class="box-body">
 
 
-<a href="<?= $this->url('products', ['action'=>'add']); ?>" class="btn btn-primary">Tạo Mới</a><table id="example2" class="table table-bordered table-hover">
+<a href="<?= $this->url('products', ['action'=>'add']); ?>" class="btn btn-primary">Tạo Mới</a>
+<table id="example2" class="table table-bordered table-hover">
 
     <thead>
         <tr>
@@ -28,6 +29,10 @@
     <?php endforeach; ?>    
     </tbody>
 </table>
-
-
 </div>
+<?= $this->paginationControl(
+            $products,
+            'Sliding',
+            'admin/patiral/paginator', 
+            ['route' => 'products']
+            ); ?>

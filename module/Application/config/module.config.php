@@ -99,6 +99,20 @@ return [
                     ],
                 ],
             ],
+            'category' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/category[/:action[/:alias]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'alias' => '[a-zA-Z0-9_-]*',   
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\CategoryController::class,
+                        'action' => 'view',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
@@ -107,6 +121,7 @@ return [
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
             Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
             Controller\HomeController::class => Controller\Factory\HomeControllerFactory::class,
+            Controller\CategoryController::class => Controller\Factory\CategoryControllerFactory::class,
         ],
     ],
     'access_filter' => [
@@ -134,6 +149,7 @@ return [
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             Service\UserManager::class => Service\Factory\UserManagerFactory::class,
             Service\CategoryManager::class => Service\Factory\CategoryManagerFactory::class,
+            Service\ProductManager::class => Service\Factory\ProductManagerFactory::class,
         ],
     ],
     'session_containers' => [

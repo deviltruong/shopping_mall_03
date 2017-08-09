@@ -5,6 +5,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Entity\Store;
 use Admin\Form\StoreForm;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 class StoreController extends AbstractActionController
 {
@@ -24,10 +27,18 @@ class StoreController extends AbstractActionController
         $this->storeManager  = $storeManager;
     }
     public function listAction()
-    {
-        $stores = $this->entityManager->getRepository(Store::class)->findAll();
+    {   
+
+        $page = $this->params()->fromQuery('page', 1);
+        $stores = $this->entityManager->getRepository(Store::class)->findStores();
+        $adapter = new DoctrineAdapter(new ORMPaginator($stores, false));
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(1);        
+        $paginator->setCurrentPageNumber($page);
+        
         return new ViewModel([
-            'stores' => $stores
+            'stores' => $paginator
             ]);
     }
     public function addAction()
@@ -57,7 +68,7 @@ class StoreController extends AbstractActionController
     public function editAction()
     {
         // Get product ID.    
-        $storeId = $this->params()->fromRoute('id', -1);
+        $storeId = $this->params()->getRoute('id', -1);
         // Find existing post in the database.    
         $store = $this->entityManager->getRepository(Store::class)->find($storeId);	
       	 // Create the form.

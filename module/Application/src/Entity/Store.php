@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Application\Entity\Product;
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Admin\Repository\StoreRepository")
  * @ORM\Table(name="stores")
  */
 class Store
@@ -89,7 +90,7 @@ class Store
 
     public function setAddress($address) 
     {
-        $this->addess = $address;
+        $this->address = $address;
     }
 
     public function getPhone() 

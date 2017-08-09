@@ -10,6 +10,9 @@ use Application\Entity\Store;
 use Admin\Form\ProductForm;
 use Admin\Helper\ToSlug;
 use Zend\File\Transfer\Adapter\Http;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 class ProductController extends AbstractActionController
 {
@@ -50,11 +53,17 @@ class ProductController extends AbstractActionController
         return ViewModel();
     }
     public function listAction(){
-        $products = $this->entityManager->getRepository(Product::class)->findAll();
-        // Render the view template
+        $page = $this->params()->fromQuery('page', 1);
+        $products = $this->entityManager->getRepository(Product::class)->findProducts();
+        $adapter = new DoctrineAdapter(new ORMPaginator($products, false));
+        
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(2);        
+        $paginator->setCurrentPageNumber($page);
+        
         return new ViewModel([
-        'products' => $products
-        ]);
+            'products' => $paginator
+            ]);
     }
     public function addAction(){
         $form = new ProductForm('create', $this->categoryManager, $this->storeManager, $this->entityManager);
