@@ -97,6 +97,17 @@ return [
                     ],
                 ],
             ],
+            'tests' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/test',
+                    
+                    'defaults' => [
+                        'controller'    => Controller\TestController::class,
+                        'action'        => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
@@ -113,6 +124,8 @@ return [
                 Controller\Factory\StoreControllerFactory::class,
             Controller\OrderController::class => 
                 Controller\Factory\OrderControllerFactory::class,
+            Controller\TestController::class => 
+                 InvokableFactory::class,    
         ],
     ],
     'service_manager' => [
