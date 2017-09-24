@@ -5,6 +5,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Admin\Form\UserForm;
 use Application\Entity\User;
+use Application\Entity\Order;
+use Application\Entity\Comment;
+use Application\Entity\Review;
+use Application\Entity\Activity;
 
 
 class UserController extends AbstractActionController
@@ -57,7 +61,8 @@ class UserController extends AbstractActionController
         if ($user == null) {
             $this->getResponse()->setStatusCode(404);                      
         }
-
+        
+        
         $orders = $user->getOrders();
         
         //setup new order variable
@@ -79,6 +84,11 @@ class UserController extends AbstractActionController
             }
         }
         
+        $activities = $user->getActivities();
+        foreach ($activities as $value) {
+            var_dump($value->getTargetId());
+        }
+
         return new ViewModel([
             'total_pays' => $total_pays,
             'total_purchased' => $total_purchased,

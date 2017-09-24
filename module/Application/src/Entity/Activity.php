@@ -3,6 +3,7 @@ namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Application\Entity\User;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="activities")
@@ -40,7 +41,7 @@ class Activity
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Application\Entity\User", inversedBy="activities")
+     * @ORM\ManyToOne(targetEntity="\Application\Entity\User", inversedBy="notifications")
      * @ORM\JoinColumn(name="receiver_id", referencedColumnName="id")
      */
     protected $receiver;
@@ -61,6 +62,7 @@ class Activity
     {
         $this->receiver = $receiver;
         $receiver->addNotification($this);
+
     }
 
     /**
@@ -125,4 +127,5 @@ class Activity
     {
         $this->date_created = $date_created;
     }
+    
 }

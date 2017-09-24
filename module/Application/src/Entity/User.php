@@ -20,13 +20,13 @@ class User
     const STATUS_RETIRED      = 2; // Retired user.
 
     /**
-     * @ORM\OneToMany(targetEntity="\Application\Entity\Activity", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Activity", mappedBy="sender")
      * @ORM\JoinColumn(name="id", referencedColumnName="sender_id")
      */
     protected $activities;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Application\Entity\Activity", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Activity", mappedBy="receiver")
      * @ORM\JoinColumn(name="id", referencedColumnName="receiver_id")
      */
     protected $notifications;
@@ -145,6 +145,7 @@ class User
     public function addNotification($notification) 
     {
         $this->notifications[] = $notification;
+
     }
 
     public function getActivities() 
@@ -154,7 +155,8 @@ class User
 
     public function addActivity($activity) 
     {
-        return $this->activities[] = $activity;
+        $this->activities[] = $activity;
+        
     }
     /**
      * Returns orders for this user.
